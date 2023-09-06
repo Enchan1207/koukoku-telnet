@@ -1,5 +1,5 @@
 //
-//
+// お手製ガバガバTCPクライアント
 //
 
 package main
@@ -18,7 +18,7 @@ import (
 
 func main() {
 
-	// 接続
+	// 接続先とタイムアウトを指定して接続
 	host := "koukoku.shadan.open.ad.jp:23"
 	timeoutSec := 5
 	connection, err := net.DialTimeout("tcp", host, time.Duration(timeoutSec)*time.Second)
@@ -26,15 +26,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 受信開始
+	// 受信バッファを構成
 	buffer := make([]byte, 32)
+
+	// 受信開始
 	size, err := connection.Read(buffer)
 	for size != 0 && err == nil {
-		if size > 0 {
-			fmt.Print(convertSjisToUtf8(buffer[:size]))
-		}
+		fmt.Print(convertSjisToUtf8(buffer[:size]))
 		size, err = connection.Read(buffer)
 	}
+
+	// エラー終了?
 	if err != nil {
 		log.Fatal(err)
 	}
