@@ -1,4 +1,4 @@
-# telnet-go
+# koukoku-telnet
 
 ## Overview
 
